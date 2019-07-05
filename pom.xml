@@ -11,6 +11,7 @@
     <groupId>org.cth</groupId>
     <artifactId>blog</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>blog</name>
     <description>Demo project for Spring Boot</description>
 
@@ -22,7 +23,6 @@
         <fastjson.version>1.2.31</fastjson.version>
         <druid.version>1.1.10</druid.version>
         <velocity.version>2.1</velocity.version>
-        <druid.version>1.1.10</druid.version>
     </properties>
 
     <dependencies>
@@ -63,10 +63,12 @@
             <artifactId>velocity-engine-core</artifactId>
             <version>${velocity.version}</version>
         </dependency>
+        <!-- 在tomcat lib中存在所以不需要-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-connector.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -78,9 +80,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- 内置tomcat-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
+        <finalName>blog</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -88,21 +97,20 @@
             </plugin>
             <!-- 配置本地maven
             <server>
-                <id>name</id>
+                <id>servername</id>
                 <username>admin</username>
                 <password>admin123</password>
             </server> -->
-            <!--
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.1</version>
                 <configuration>
-                    <url>http://ip:port/manager/text</url>
-                    <server>name</server>
-                    <path>/projectName</path>
+                    <url>http://*:8087/manager/text</url>
+                    <server>servername</server>
+                    <path>/blog</path>
                 </configuration>
-            </plugin> -->
+            </plugin>
         </plugins>
     </build>
 
