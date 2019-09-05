@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tree</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.css">
+    <script type="text/javascript" src="../js/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap/bootstrap-treeview.js"></script>
+    <style>
+        #bookmarks {
+            position:absolute;
+            left:8%;
+            top:5%;
+            width:80%;
+            border-radius:5px; <!-- 圆边角 -->
+        }
+        .btn-group {
+            bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid" id="bookmarks">
+    <div class="row">
+        <div class="col-sm-11">
+            <h2 class="page-header" style="text-align:center;">我的书签</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="div_group" id="div_group"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <!--
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default">新增</button>
+                <button type="button" class="btn btn-default">修改</button>
+                <button type="button" class="btn btn-default">删除</button>
+            </div> -->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <ul class="list-group" id="test">
+                        <li class="list-group-item">Java集合类: Set、List、Map、Queue使用场景梳理 - 骑着蜗牛逛世界 - 博客园</li>
+                        <li class="list-group-item">java 建造者模式的实际应用场景 - Arthurs_L的博客 - CSDN博客</li>
+                        <li class="list-group-item">java 单例模式5种写法 - 认输 - 博客园</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span>标题：</span>
+                </div>
+                <div class="panel-body">
+                    <input type="text" class="form-control" value="Java集合类: Set、List、Map、Queue使用场景梳理 - 骑着蜗牛逛世界 - 博客园"/>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <span>网址：</span>
+                </div>
+                <div class="panel-body">
+                    <input type="text" class="form-control" value="https://www.cnblogs.com/LittleHann/p/3690187.html"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../js/utils/set-tree.js"></script>
+</body>
+</html>
