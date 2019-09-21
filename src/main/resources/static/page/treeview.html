@@ -5,6 +5,8 @@
     <title>Tree</title>
     <link rel="stylesheet" type="text/css" href="../css/bootstrap/bootstrap.css">
     <script type="text/javascript" src="../js/jquery/jquery-3.3.1.min.js"></script>
+    <!--先引用jq,再引用bs-->
+    <script type="text/javascript" src="../js/bootstrap/bootstrap.js"></script>
     <script type="text/javascript" src="../js/bootstrap/bootstrap-treeview.js"></script>
     <style>
         #bookmarks {
@@ -13,9 +15,6 @@
             top:5%;
             width:80%;
             border-radius:5px; <!-- 圆边角 -->
-        }
-        .btn-group {
-            bottom: 5px;
         }
     </style>
 </head>
@@ -30,41 +29,55 @@
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <div class="div_group" id="div_group"></div>
+                    <div class="div_group" id="divGroup"></div>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
-            <!--
-            <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-default">新增</button>
-                <button type="button" class="btn btn-default">修改</button>
-                <button type="button" class="btn btn-default">删除</button>
-            </div> -->
             <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="form-group hidden">
+                        <input type="text" name="treeId" class="form-control" id="treeId">
+                    </div>
+                    <div class="form-group hidden">
+                        <input type="text" name="pid" class="form-control" id="pid">
+                    </div>
+                    <div class="form-group" style="text-align:right;">
+                        <button type="button" id="btnInsert" class="btn btn-primary">新增</button>
+                    </div>
+                </div>
                 <div class="panel-body">
-                    <ul class="list-group" id="test">
-                        <li class="list-group-item">Java集合类: Set、List、Map、Queue使用场景梳理 - 骑着蜗牛逛世界 - 博客园</li>
-                        <li class="list-group-item">java 建造者模式的实际应用场景 - Arthurs_L的博客 - CSDN博客</li>
-                        <li class="list-group-item">java 单例模式5种写法 - 认输 - 博客园</li>
+                    <ul class="list-group" id="bookmarksBody">
+
                     </ul>
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <span>标题：</span>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="bkModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="bkModalLabel">自定义</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="bkContent">书签名称</label>
+                    <input type="text" name="bkContent" class="form-control" id="bkContent" placeholder="书签名称">
                 </div>
-                <div class="panel-body">
-                    <input type="text" class="form-control" value="Java集合类: Set、List、Map、Queue使用场景梳理 - 骑着蜗牛逛世界 - 博客园"/>
+                <div class="form-group">
+                    <label for="bkUrl">路径</label>
+                    <input type="text" name="bkUrl" class="form-control" id="bkUrl" placeholder="路径">
+                </div>
+                <div class="form-group hidden">
+                    <input type="text" name="bkId" class="form-control" id="bkId">
                 </div>
             </div>
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <span>网址：</span>
-                </div>
-                <div class="panel-body">
-                    <input type="text" class="form-control" value="https://www.cnblogs.com/LittleHann/p/3690187.html"/>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="btnSubmit" class="btn btn-primary" onclick="saveBookMark()" data-dismiss="modal">保存</button>
             </div>
         </div>
     </div>

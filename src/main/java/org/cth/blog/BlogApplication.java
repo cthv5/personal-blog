@@ -5,6 +5,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
+/**
+ *
+ * @author cth
+ * @date 2019/09/21
+ */
 @SpringBootApplication
 public class BlogApplication extends SpringBootServletInitializer {
 

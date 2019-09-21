@@ -1,52 +1,99 @@
-$(function(){
-    var groupTreeData = '[\n' +
-        '    {\n' +
-        '        "groupDesc":"移动门户描述",\n' +
-        '        "text":"移动门户",\n' +
-        '        "groupType":1,\n' +
-        '        "href":"#7CF98E8FE9870991E0530100007F9288",\n' +
-        '        "parentSeq":"0",\n' +
-        '        "seq":"7CF98E8FE9870991E0530100007F9288",\n' +
-        '        "nodes":[\n' +
-        '            {\n' +
-        '                "groupDesc":"文章收藏描述",\n' +
-        '                "text":"文章收藏",\n' +
-        '                "groupType":1,\n' +
-        '                "href":"#7CF98E8FE9880991E0530100007F9288",\n' +
-        '                "parentSeq":"7CF98E8FE9870991E0530100007F9288",\n' +
-        '                "seq":"7CF98E8FE9880991E0530100007F9288",\n' +
-        '                "nodes":[\n' +
-        '\n' +
-        '                ]\n' +
-        '            }\n' +
-        '        ]\n' +
-        '    },\n' +
-        '    {\n' +
-        '        "groupDesc":"测试",\n' +
-        '        "text":"网上申办",\n' +
-        '        "groupType":1,\n' +
-        '        "href":"#7CF946FFABE8083FE0530100007FF726",\n' +
-        '        "parentSeq":"0",\n' +
-        '        "seq":"7CF946FFABE8083FE0530100007FF726",\n' +
-        '        "nodes":[\n' +
-        '\n' +
-        '        ]\n' +
-        '    }\n' +
-        ']';
-    $('#div_group').treeview({
-        color : "#428bca",
-        enableLinks: true,
-        data : groupTreeData,
-        onNodeSelected : function(event, node) {
-            document.getElementById(node.seq).scrollIntoView();
-        },
-        onNodeUnselected:function (event, node) {
-            // var anh = $('#top').offset().top;
-            // debugger
-            // $("#content").stop().animate({scrollTop:anh},400);
+$(function () {
+    $.ajax({
+        url: "/test/treeData",
+        type: "GET",
+        data: {},
+        dataType: "json",
+        success: function (data) {
+            var treeData = data.list;
+            $('#divGroup').treeview({
+                color: "#428bca",
+                enableLinks: false, //是否使用超链接
+                data: treeData,
+                onNodeSelected: function (event, node) {
+                    //存treeId，pid
+                    $("#treeId").val(String(node.treeId));
+                    $("#pid").val(String(node.pid));
+                    //菜单下的书签id集合
+                    var bookIds = String(node.bookIds);
+                    if (bookIds != "") {
+                        //清空
+                        $('#bookmarksBody').html("");
+                        var bookIdArr = bookIds.split(",");
+                        bookIdArr.forEach(function (value, index, array) {
+                            getBookMark(value);
+                        });
+                    }
+                }
+            });
         }
     });
-    $("ul#test").on("click","li",function(){      //只需要找到你点击的是哪个ul里面的就行
-        alert($(this).text());
+});
+
+//点击书签修改
+$("ul#bookmarksBody").on("click", "li", function () {
+    var bkId = $(this).find('div').eq(0).text();
+    var bkUrl = $(this).find('div').eq(1).text();
+    var bkContent = $(this).find('div').eq(2).text();
+    $("#bkModalLabel").text("修改书签");
+    $('#bkContent').val(bkContent);
+    $('#bkUrl').val(bkUrl);
+    $('#bkId').val(bkId);
+    $('#bkModal').modal();
+});
+
+//通过书签id获取详情
+function getBookMark(id) {
+    $.ajax({
+        url: "/test/bookmark/" + id,
+        type: "GET",
+        data: {},
+        async: false,
+        dataType: "json",
+        success: function (data) {
+            var content = data.content;
+            var url = data.url;
+            $('#bookmarksBody').append('<li class="list-group-item"><div class="hidden">' + id + '</div><div class="hidden">' + url + '</div><div>' + content + '</div></li>');
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            alert("异常...")
+        }
     });
+}
+
+function saveBookMark() {
+    $.ajax({
+        url: "/test/bookmark",
+        type: "POST",
+        data: {
+            "content" : String($('#bkContent').val()),
+            "url" : String($('#bkUrl').val()),
+            "id" : String($('#bkId').val())
+        },
+        async: false,
+        dataType: "json",
+        success: function (data) {
+            var code = data.code;
+            if (code == 0) {
+                console.log(data.list);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            alert("异常...")
+        }
+    });
+}
+
+$("#btnInsert").click(function () {
+    $("#bkModalLabel").text("新增书签");
+    var treeId = $("#treeId").val();
+    var pid = $("#pid").val();
+    if (treeId == "") {
+        alert("请先点击左侧树菜单,作为新书签上级")
+    } else {
+        console.log(treeId +","+ pid);
+        $('#bkModal').modal();
+    }
 });
